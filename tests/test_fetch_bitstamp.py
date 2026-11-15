@@ -1,6 +1,6 @@
 """Pruebas sin Internet del validador de velas UTC."""
 import importlib.util
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from pathlib import Path
 import unittest
 
@@ -14,7 +14,7 @@ class CandleValidationTest(unittest.TestCase):
     def setUp(self):
         self.now = datetime(2026, 11, 15, 12, tzinfo=timezone.utc)
         self.items = []
-        for date in (12, 13, 14):
+        for date in (11, 12, 13, 14):
             ts = int(datetime(2026, 11, date, tzinfo=timezone.utc).timestamp())
             self.items.append({
                 "timestamp": str(ts),
@@ -29,7 +29,7 @@ class CandleValidationTest(unittest.TestCase):
     def test_candles_are_complete(self):
         result = module.validate_and_format(self.payload, self.now)
         self.assertEqual(result["latest_completed_utc"], "2026-11-14")
-        self.assertEqual(len(result["candles"]), 3)
+        self.assertEqual(len(result["candles"]), 4)
 
     def test_open_candle_is_rejected(self):
         self.items.append({**self.items[-1], "timestamp": str(int(datetime(2026, 11, 15, tzinfo=timezone.utc).timestamp()))})
