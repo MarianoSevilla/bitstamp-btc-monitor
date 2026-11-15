@@ -1,0 +1,45 @@
+name: Bitstamp BTCUSD daily OHLC
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/refresh-bitstamp.yml"
+      - "scripts/fetch_bitstamp.py"
+      - "tests/test_fetch_bitstamp.py"
+  schedule:
+    # UTC: dos comprobaciones después del cierre diario y varios reintentos.
+    - cron: "13,43 0 * * *"
+    - cron: "19 1,7,13,19 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bitstamp-btc-candles
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validar lógica UTC sin Internet
+        run: python -m unittest discover -s tests -v
+      - name: Descargar y validar datos DIRECTAMENTE de Bitstamp
+        run: python scripts/fetch_bitstamp.py
+      - name: Publicar solo cuando cambien las velas completadas
+        run: |
+          git add -- data/bitstamp_btcusd_daily.json
+          if ! git diff --cached --quiet --exit-code; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "data: actualizar BTC/USD Bitstamp UTC"
+            git push
+          else
+            echo "No hay velas nuevas"
+          fi
