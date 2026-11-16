@@ -10,7 +10,7 @@ on:
   schedule:
     # UTC: dos comprobaciones después del cierre diario y varios reintentos.
     - cron: "13,43 0 * * *"
-    - cron: "19 1,7,13,19 * * *"
+    - cron: "19 1-23 * * *"
 
 permissions:
   contents: write
