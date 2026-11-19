@@ -4,18 +4,9 @@
   "pair": "BTC/USD",
   "step_seconds": 86400,
   "exclude_current_candle": true,
-  "fetched_at_utc": "2026-11-18T04:24:41+00:00",
-  "latest_completed_utc": "2026-11-17",
+  "fetched_at_utc": "2026-11-19T03:31:50+00:00",
+  "latest_completed_utc": "2026-11-18",
   "candles": [
-    {
-      "date_utc": "2026-09-19",
-      "timestamp": 1789776000,
-      "open": "80878.78",
-      "high": "81913.69",
-      "low": "80823.13",
-      "close": "81235.14",
-      "volume": "1047.02886333"
-    },
     {
       "date_utc": "2026-09-20",
       "timestamp": 1789862400,
@@ -546,6 +537,15 @@
       "low": "63269.17",
       "close": "64877.24",
       "volume": "1125.84546230"
+    },
+    {
+      "date_utc": "2026-11-18",
+      "timestamp": 1794960000,
+      "open": "64877.23",
+      "high": "64936.34",
+      "low": "61995.00",
+      "close": "62976.18",
+      "volume": "1216.27767294"
     }
   ]
 }
